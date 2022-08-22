@@ -1,3 +1,37 @@
+## ORDER-MVP2
+> 멀티 모듈 단일 프로젝트로 도메인 주도 설계(DDD)를 통해 SpringBoot 기반 이커머스 주문 서비스 개발
+<br> 
+사용기술: java11, SpringBoot 2.7.2, SpringBatch, JPA, myBatis, H2, mysql, swagger2
+
+## 모듈
+
+### common
+> 특정 서비스에 의존하는 것이 아닌, 공통적인 비즈니스 및 에러처리 등 서비스 전반적으로 사용되는 모듈
+
+### order-core
+> 도메인 별 바운더리 컨텍스트로 구분 ~ 코어 모듈
+
+### order-api-server
+> 주문 서비스의 웹 어플리케이션
+
+### order-batch-server
+> 주문 서비스 배치 어플리케이션
+
+
+## 브랜치 전략
+> git-flow 브랜치 전략으로 브랜치 이름을 통해 기능/의도를 명확히하여 모듈 별 체계적인 개발 프로세스 구현
+
+- /feature/모듈/기능
+
+
+## docker(mysql) 
+```
+FSDF
+```
+
+
+
+
 ## 요구사항
 
 
