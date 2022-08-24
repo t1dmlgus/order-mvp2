@@ -1,7 +1,6 @@
 package dev.t1dmlgus.ordermvp2.common;
 
 import lombok.Getter;
-
 import java.util.Objects;
 
 @Getter
