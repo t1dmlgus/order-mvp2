@@ -3,13 +3,16 @@ package dev.t1dmlgus.ordermvp2.order.domain;
 
 import dev.t1dmlgus.ordermvp2.AbstractEntity;
 import dev.t1dmlgus.ordermvp2.common.Money;
+import dev.t1dmlgus.ordermvp2.common.MoneyConverter;
+import dev.t1dmlgus.ordermvp2.common.util.TokenUtil;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
 
-
+@NoArgsConstructor
 @Getter
 @Table(name = "orders")
 @Entity
@@ -19,13 +22,16 @@ public class Order extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String orderToken;
+
     @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "order_line", joinColumns = @JoinColumn(name="order_id"))
+    @CollectionTable(name = "order_lines", joinColumns = @JoinColumn(name="order_id"))
     @OrderColumn(name = "order_line_id")
     private List<OrderLine> orderLines;
 
-    private Long ordererId;
+    private String memberToken;
 
+    @Convert(converter = MoneyConverter.class)
     private Money totalAmounts;
 
     @Embedded
@@ -49,20 +55,21 @@ public class Order extends AbstractEntity {
         private final String description;
     }
 
-    public Order(List<OrderLine> orderLines, Long userId, DeliveryInfo deliveryInfo, OrderState orderState) {
+    public Order(List<OrderLine> orderLines, String memberToken, DeliveryInfo deliveryInfo) {
         setOrderLines(orderLines);
         setDelivery(deliveryInfo);
-        setUserId(userId);
+        setMemberToken(memberToken);
         this.orderState = OrderState.PAYMENT_WAITING;
+        this.orderToken = TokenUtil.generateToken("order");
     }
 
 
 
-    private void setUserId(Long userId) {
-        if (userId == null) {
+    private void setMemberToken(String memberToken) {
+        if (memberToken.equals("")) {
             throw new IllegalArgumentException("주문자는 필수입니다.");
         }
-        this.ordererId = userId;
+        this.memberToken = memberToken;
     }
 
 
