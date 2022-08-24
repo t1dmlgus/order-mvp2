@@ -1,20 +1,26 @@
 package dev.t1dmlgus.ordermvp2.order.domain;
 
 import dev.t1dmlgus.ordermvp2.common.Money;
+import dev.t1dmlgus.ordermvp2.common.MoneyConverter;
 import lombok.Getter;
 
+import javax.persistence.Convert;
+import javax.persistence.Embeddable;
 
+@Embeddable
 @Getter
 public class OrderLine {
 
-    private final Long productId;
+    private final String productToken;
+    @Convert(converter = MoneyConverter.class)
     private final Money price;
     private final int quantity;
+    @Convert(converter = MoneyConverter.class)
     private final Money amounts;
 
 
-    public OrderLine(Long productId, Money price, int quantity) {
-        this.productId = productId;
+    public OrderLine(String productToken, Money price, int quantity) {
+        this.productToken = productToken;
         this.price = price;
         this.quantity = quantity;
         this.amounts = calculateAmounts();

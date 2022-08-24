@@ -3,14 +3,14 @@ package dev.t1dmlgus.ordermvp2.product.domain;
 
 import dev.t1dmlgus.ordermvp2.AbstractEntity;
 import dev.t1dmlgus.ordermvp2.common.Money;
+import dev.t1dmlgus.ordermvp2.common.MoneyConverter;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@NoArgsConstructor
 @Getter
 @Entity
 public class Product extends AbstractEntity {
@@ -19,8 +19,11 @@ public class Product extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String productToken;
+
     private String name;
 
+    @Convert(converter = MoneyConverter.class)
     private Money price;
 
     private ProductStatus status;
