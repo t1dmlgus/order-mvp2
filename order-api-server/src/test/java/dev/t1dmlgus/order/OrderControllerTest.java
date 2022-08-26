@@ -3,7 +3,6 @@ package dev.t1dmlgus.order;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.t1dmlgus.order.application.OrderCommand;
 import dev.t1dmlgus.order.application.OrderService;
-import dev.t1dmlgus.product.application.ProductCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
