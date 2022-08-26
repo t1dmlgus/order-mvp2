@@ -26,7 +26,7 @@ class ProductServiceTest {
     void registerProduct_returns_productToken_start_with_P(){
 
         // given
-        ProductCommand.registerProduct registerProductCommand = ProductCommand.registerProduct.builder()
+        ProductCommand.RegisterProduct registerProductCommand = ProductCommand.RegisterProduct.builder()
                 .name("그리스로마신화8 - 오르페우스의사랑")
                 .price(13000)
                 .stock(80)
@@ -36,11 +36,9 @@ class ProductServiceTest {
         Mockito.when(productRepository.save(any(Product.class))).thenReturn(product);
 
         // when
-        String productToken = productService.registerProduct(registerProductCommand);
+        String productToken = productService.register(registerProductCommand);
 
         // then
         Assertions.assertThat(productToken.substring(0, 1)).isEqualTo("P");
-
     }
-
 }

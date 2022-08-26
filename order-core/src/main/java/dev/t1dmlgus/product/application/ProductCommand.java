@@ -9,17 +9,25 @@ public class ProductCommand {
 
     @ToString
     @Getter
-    public static class registerProduct{
+    public static class RegisterProduct {
 
-        private String name;
-        private int price;
-        private int stock;
+        private final String name;
+        private final int price;
+        private final int stock;
 
         @Builder
-        public registerProduct(String name, int price, int stock) {
+        private RegisterProduct(String name, int price, int stock) {
             this.name = name;
             this.price = price;
             this.stock = stock;
+        }
+
+        public static RegisterProduct newInstance(String name, int price, int stock){
+            return RegisterProduct.builder()
+                    .name(name)
+                    .price(price)
+                    .stock(stock)
+                    .build();
         }
 
         public Product toProduct(){

@@ -30,13 +30,14 @@ public class Product extends AbstractEntity {
 
     private int stock;
 
+    @Enumerated(EnumType.STRING)
     private ProductStatus status;
 
     @Getter
     @RequiredArgsConstructor
     public enum ProductStatus {
         ON_SALE("판매중"),
-        OFF_SALE("핀매종료");
+        OFF_SALE("판매종료");
 
         private final String description;
     }
