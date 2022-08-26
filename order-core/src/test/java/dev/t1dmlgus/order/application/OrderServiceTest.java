@@ -1,9 +1,6 @@
-package dev.t1dmlgus.ordermvp2.order.application;
+package dev.t1dmlgus.order.application;
 
 import dev.t1dmlgus.common.Money;
-import dev.t1dmlgus.order.application.OrderCommand;
-import dev.t1dmlgus.order.application.OrderLineFactory;
-import dev.t1dmlgus.order.application.OrderService;
 import dev.t1dmlgus.order.domain.Order;
 import dev.t1dmlgus.order.domain.OrderLine;
 import dev.t1dmlgus.order.domain.OrderRepository;
@@ -35,15 +32,15 @@ class OrderServiceTest {
 
     @Test
     @DisplayName("주문 완료 성공 시, 반환하는 토큰의 시작은 A이다.")
-    void placeOrder_returns_orderToken_startWith_A() {
+    void placeOrder_returns_orderToken_start_with_A() {
 
         // given
         int productQuantity = 3;
         String memberToken = "M12345678";
         OrderCommand.OrderDeliveryInfo orderDeliveryInfo=
                 OrderCommand.OrderDeliveryInfo.builder()
-                        .address1("안양시")
-                        .address2("만안구")
+                        .address1("경기도 안양시")
+                        .address2("만안구 박달동")
                         .zipCode("430-25")
                         .msg("주문하신 음료입니다.")
                         .receiverName("이의현")
