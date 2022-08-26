@@ -95,7 +95,7 @@ class ProductControllerTest {
         resultActions
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("상품을 조회하였습니다."))
-                .andExpect(jsonPath("$.data.productName").value("그리스 로마 신화 9 - 가장 아름다운 여신"))
+                .andExpect(jsonPath("$.data.productName").value("그리스로마신화 9 - 가장 아름다운 여신"))
                 .andExpect(jsonPath("$.data.productStatus").value("판매중"))
                 .andDo(print()
                 );
