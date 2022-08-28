@@ -1,1 +1,4 @@
 rootProject.name = 'order-mvp2'
+include 'order-api-server'
+include 'order-core'
+
