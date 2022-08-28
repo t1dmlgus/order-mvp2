@@ -1,6 +1,6 @@
 package dev.t1dmlgus.order.application;
 
-import dev.t1dmlgus.common.Money;
+import dev.t1dmlgus.common.util.Money;
 import dev.t1dmlgus.order.domain.Order;
 import dev.t1dmlgus.order.domain.OrderLine;
 import dev.t1dmlgus.order.domain.OrderRepository;

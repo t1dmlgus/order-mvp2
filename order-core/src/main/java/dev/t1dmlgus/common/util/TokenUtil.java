@@ -1,4 +1,4 @@
-package dev.t1dmlgus.util;
+package dev.t1dmlgus.common.util;
 
 import java.util.UUID;
 

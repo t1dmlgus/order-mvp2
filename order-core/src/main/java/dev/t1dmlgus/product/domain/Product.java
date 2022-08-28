@@ -1,10 +1,10 @@
 package dev.t1dmlgus.product.domain;
 
 
-import dev.t1dmlgus.common.AbstractEntity;
-import dev.t1dmlgus.common.Money;
-import dev.t1dmlgus.common.MoneyConverter;
-import dev.t1dmlgus.util.TokenUtil;
+import dev.t1dmlgus.common.util.AbstractEntity;
+import dev.t1dmlgus.common.util.Money;
+import dev.t1dmlgus.common.util.MoneyConverter;
+import dev.t1dmlgus.common.util.TokenUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
