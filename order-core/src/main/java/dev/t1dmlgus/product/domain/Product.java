@@ -4,6 +4,8 @@ package dev.t1dmlgus.product.domain;
 import dev.t1dmlgus.common.AbstractEntity;
 import dev.t1dmlgus.common.Money;
 import dev.t1dmlgus.common.MoneyConverter;
+import dev.t1dmlgus.util.TokenUtil;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -26,23 +28,35 @@ public class Product extends AbstractEntity {
     @Convert(converter = MoneyConverter.class)
     private Money price;
 
+    private int stock;
+
+    @Enumerated(EnumType.STRING)
     private ProductStatus status;
 
     @Getter
     @RequiredArgsConstructor
     public enum ProductStatus {
-        PREPARE("판매준비중"),
         ON_SALE("판매중"),
-        OFF_SALE("핀매종료");
+        OFF_SALE("판매종료");
 
         private final String description;
     }
 
-
-    public Product(String name, Money price) {
+    @Builder
+    private Product(String name, Money price, int stock) {
         this.name = name;
         this.price = price;
-        this.status = ProductStatus.PREPARE;
+        this.stock = stock;
+        this.status = ProductStatus.ON_SALE;
+        this.productToken = TokenUtil.generateToken("product");
+    }
+
+    public static Product newInstance(String name, int price, int stock) {
+        return Product.builder()
+                .name(name)
+                .price(new Money(price))
+                .stock(stock)
+                .build();
     }
 
     public void changeProductOnSale(){
