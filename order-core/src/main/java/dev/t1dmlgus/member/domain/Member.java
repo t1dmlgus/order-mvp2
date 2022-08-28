@@ -1,7 +1,7 @@
 package dev.t1dmlgus.member.domain;
 
 
-import dev.t1dmlgus.common.AbstractEntity;
+import dev.t1dmlgus.common.util.AbstractEntity;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;

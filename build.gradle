@@ -58,9 +58,3 @@ project(':order-api-server') {
 		api project(':order-core')
 	}
 }
-
-project(':order-core') {
-	dependencies {
-		api project(':order-common')
-	}
-}

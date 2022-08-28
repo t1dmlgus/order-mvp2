@@ -1,7 +1,7 @@
 package dev.t1dmlgus.order.domain;
 
-import dev.t1dmlgus.common.Money;
-import dev.t1dmlgus.common.MoneyConverter;
+import dev.t1dmlgus.common.util.Money;
+import dev.t1dmlgus.common.util.MoneyConverter;
 import lombok.Getter;
 
 import javax.persistence.Convert;
