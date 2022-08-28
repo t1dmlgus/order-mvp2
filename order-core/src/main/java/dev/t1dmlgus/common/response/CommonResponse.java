@@ -1,4 +1,4 @@
-package dev.t1dmlgus.response;
+package dev.t1dmlgus.common.response;
 
 import lombok.Builder;
 import lombok.Getter;
