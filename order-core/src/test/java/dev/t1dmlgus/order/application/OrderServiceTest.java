@@ -5,6 +5,7 @@ import dev.t1dmlgus.order.domain.Order;
 import dev.t1dmlgus.order.domain.OrderLine;
 import dev.t1dmlgus.order.domain.OrderRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +15,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -28,6 +33,14 @@ class OrderServiceTest {
     private OrderLineFactory orderLineFactory;
     @Mock
     private OrderRepository orderRepository;
+
+
+    @BeforeEach
+    public void before(){
+
+
+
+    }
 
 
     @Test
@@ -60,7 +73,7 @@ class OrderServiceTest {
         orderLines.add(new OrderLine("B333333",new Money(5000),3));
 
 
-        Order order = new Order(orderLines, memberToken, placeOrder.getDeliveryInfo());
+        Order order = Order.newInstance(orderLines, memberToken, placeOrder.getDeliveryInfo());
 
         // when
         Mockito.when(orderLineFactory.store(ar)).thenReturn(orderLines);
@@ -70,4 +83,24 @@ class OrderServiceTest {
         // then
         Assertions.assertThat(orderToken.substring(0, 1)).isEqualTo("A");
     }
+
+
+    public void 동시에_100개_주문요청(){
+
+        int threadCount = 100;
+        ExecutorService executorService = Executors.newFixedThreadPool(32);
+        CountDownLatch latch = new CountDownLatch(threadCount);
+
+        for (int i = 0; i < threadCount; i++) {
+            executorService.submit(() -> {
+
+
+            });
+        }
+
+
+    }
+
+
+
 }

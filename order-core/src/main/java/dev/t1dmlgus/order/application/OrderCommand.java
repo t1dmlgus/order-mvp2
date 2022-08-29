@@ -3,11 +3,13 @@ package dev.t1dmlgus.order.application;
 import dev.t1dmlgus.order.domain.DeliveryInfo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.List;
 
 public class OrderCommand {
 
+    @ToString
     @Getter
     public static class PlaceOrder {
 
