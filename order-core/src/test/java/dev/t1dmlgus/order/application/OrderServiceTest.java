@@ -16,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.IntStream;
@@ -81,7 +80,7 @@ class OrderServiceTest {
         String orderToken = orderService.placeOrder(placeOrder);
 
         // then
-        Assertions.assertThat(orderToken.substring(0, 1)).isEqualTo("A");
+        Assertions.assertThat(orderToken.substring(0, 1)).isEqualTo("R");
     }
 
 
