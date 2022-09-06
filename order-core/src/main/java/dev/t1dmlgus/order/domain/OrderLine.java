@@ -3,11 +3,13 @@ package dev.t1dmlgus.order.domain;
 import dev.t1dmlgus.common.util.Money;
 import dev.t1dmlgus.common.util.MoneyConverter;
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.Convert;
 import javax.persistence.Embeddable;
 
 @Embeddable
+@ToString
 @Getter
 public class OrderLine {
 
