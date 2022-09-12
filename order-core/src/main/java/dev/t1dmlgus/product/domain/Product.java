@@ -76,11 +76,10 @@ public class Product extends AbstractEntity {
         this.name = productName;
     }
 
-    public void checkStock(int quantity){
+    public int checkStock(int quantity){
         if (stock < quantity) {
             throw new RuntimeException("재고가 부족합니다.");
         }
-        System.out.println(" 22 ");
-        stock -= quantity;
+        return stock -= quantity;
     }
 }

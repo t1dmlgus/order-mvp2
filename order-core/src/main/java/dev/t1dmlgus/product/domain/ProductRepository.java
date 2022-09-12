@@ -8,6 +8,5 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Lock(value = LockModeType.OPTIMISTIC_FORCE_INCREMENT)
     Optional<Product> findByProductToken(String productToken);
 }

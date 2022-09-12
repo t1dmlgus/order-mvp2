@@ -14,9 +14,12 @@ import javax.persistence.Embeddable;
 public class OrderLine {
 
     private final String productToken;
+
     @Convert(converter = MoneyConverter.class)
     private final Money price;
+
     private final int quantity;
+
     @Convert(converter = MoneyConverter.class)
     private final Money amounts;
 

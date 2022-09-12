@@ -21,8 +21,6 @@ public class OrderService {
     @Transactional
     public String placeOrder(OrderCommand.PlaceOrder placeOrder){
 
-        System.out.println(">>> placeOrder = " + placeOrder);
-
         List<OrderLine> orderLines = orderLineFactory.store(placeOrder.getOrderProducts());
         Order order = Order.newInstance(orderLines, placeOrder.getMemberToken(), placeOrder.getDeliveryInfo());
         Order save = orderRepository.save(order);
