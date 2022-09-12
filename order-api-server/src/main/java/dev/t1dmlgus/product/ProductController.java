@@ -1,10 +1,10 @@
 package dev.t1dmlgus.product;
 
 
+import dev.t1dmlgus.common.response.CommonResponse;
 import dev.t1dmlgus.product.application.ProductCommand;
 import dev.t1dmlgus.product.application.ProductInfo;
 import dev.t1dmlgus.product.application.ProductService;
-import dev.t1dmlgus.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

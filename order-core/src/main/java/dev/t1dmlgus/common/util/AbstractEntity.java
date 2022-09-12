@@ -1,4 +1,4 @@
-package dev.t1dmlgus.common;
+package dev.t1dmlgus.common.util;
 
 
 import lombok.Getter;
