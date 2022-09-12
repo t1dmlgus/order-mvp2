@@ -1,10 +1,11 @@
 package dev.t1dmlgus.order.domain;
 
 
-import dev.t1dmlgus.common.AbstractEntity;
-import dev.t1dmlgus.common.Money;
-import dev.t1dmlgus.common.MoneyConverter;
-import dev.t1dmlgus.util.TokenUtil;
+import dev.t1dmlgus.common.util.AbstractEntity;
+import dev.t1dmlgus.common.util.Money;
+import dev.t1dmlgus.common.util.MoneyConverter;
+import dev.t1dmlgus.common.util.TokenUtil;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +56,8 @@ public class Order extends AbstractEntity {
         private final String description;
     }
 
-    public Order(List<OrderLine> orderLines, String memberToken, DeliveryInfo deliveryInfo) {
+    @Builder
+    private Order(List<OrderLine> orderLines, String memberToken, DeliveryInfo deliveryInfo) {
         setOrderLines(orderLines);
         setDelivery(deliveryInfo);
         setMemberToken(memberToken);
@@ -63,7 +65,13 @@ public class Order extends AbstractEntity {
         this.orderToken = TokenUtil.generateToken("order");
     }
 
-
+    public static Order newInstance(List<OrderLine> orderLines, String memberToken, DeliveryInfo deliveryInfo){
+        return Order.builder()
+                .orderLines(orderLines)
+                .memberToken(memberToken)
+                .deliveryInfo(deliveryInfo)
+                .build();
+    }
 
     private void setMemberToken(String memberToken) {
         if (memberToken.equals("")) {
