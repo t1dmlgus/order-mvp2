@@ -1,9 +1,9 @@
 package dev.t1dmlgus.order;
 
 
+import dev.t1dmlgus.common.response.CommonResponse;
 import dev.t1dmlgus.order.application.OrderCommand;
 import dev.t1dmlgus.order.application.OrderService;
-import dev.t1dmlgus.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

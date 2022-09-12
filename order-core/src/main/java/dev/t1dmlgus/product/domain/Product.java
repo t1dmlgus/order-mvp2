@@ -1,10 +1,11 @@
 package dev.t1dmlgus.product.domain;
 
 
-import dev.t1dmlgus.common.AbstractEntity;
-import dev.t1dmlgus.common.Money;
-import dev.t1dmlgus.common.MoneyConverter;
-import dev.t1dmlgus.util.TokenUtil;
+
+import dev.t1dmlgus.common.util.AbstractEntity;
+import dev.t1dmlgus.common.util.Money;
+import dev.t1dmlgus.common.util.MoneyConverter;
+import dev.t1dmlgus.common.util.TokenUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,9 @@ public class Product extends AbstractEntity {
 
     @Convert(converter = MoneyConverter.class)
     private Money price;
+
+    @Version
+    private Long version;
 
     private int stock;
 
@@ -72,4 +76,11 @@ public class Product extends AbstractEntity {
         this.name = productName;
     }
 
+    public void checkStock(int quantity){
+        if (stock < quantity) {
+            throw new RuntimeException("재고가 부족합니다.");
+        }
+        System.out.println(" 22 ");
+        stock -= quantity;
+    }
 }

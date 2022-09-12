@@ -1,4 +1,4 @@
-package dev.t1dmlgus.util;
+package dev.t1dmlgus.common.util;
 
 import java.util.UUID;
 
@@ -10,7 +10,7 @@ public class TokenUtil {
 
         String prefix = "";
         if (type.equals("order")) {
-            prefix = "A";
+            prefix = "R";
         } else if (type.equals("member")) {
             prefix = "M";
         }else if (type.equals("product")) {
