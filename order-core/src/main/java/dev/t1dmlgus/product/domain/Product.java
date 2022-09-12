@@ -1,6 +1,7 @@
 package dev.t1dmlgus.product.domain;
 
 
+
 import dev.t1dmlgus.common.util.AbstractEntity;
 import dev.t1dmlgus.common.util.Money;
 import dev.t1dmlgus.common.util.MoneyConverter;
@@ -30,7 +31,6 @@ public class Product extends AbstractEntity {
 
     @Version
     private Long version;
-
 
     private int stock;
 
