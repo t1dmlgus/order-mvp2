@@ -18,10 +18,10 @@ public class OrderService {
     private final OrderLineFactory orderLineFactory;
     private final OrderRepository orderRepository;
 
-    @Transactional
-    public String placeOrder(OrderCommand.PlaceOrder placeOrder){
+//    @Transactional
+    public synchronized String placeOrder(OrderCommand.PlaceOrder placeOrder){
 
-        List<OrderLine> orderLines = orderLineFactory.store(placeOrder.getOrderProducts());
+         List<OrderLine> orderLines = orderLineFactory.store(placeOrder.getOrderProducts());
         Order order = Order.newInstance(orderLines, placeOrder.getMemberToken(), placeOrder.getDeliveryInfo());
         Order save = orderRepository.save(order);
         return save.getOrderToken();

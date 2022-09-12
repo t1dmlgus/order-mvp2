@@ -47,13 +47,6 @@ public class OrderServiceIntegrationTest {
         ar.add(OrderCommand.OrderProduct.newInstance(productToken, 1));
     }
 
-    @AfterEach
-    public void after(){
-        productRepository.delete(testProduct);
-    }
-
-
-
 
     @Test
     void placeOrder_100_order_at_the_same_time() throws InterruptedException {
