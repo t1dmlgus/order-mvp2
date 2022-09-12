@@ -28,6 +28,7 @@ public class ProductInfo {
 
 
     @Getter
+
     public static class ProductDetail{
 
         private String productToken;
