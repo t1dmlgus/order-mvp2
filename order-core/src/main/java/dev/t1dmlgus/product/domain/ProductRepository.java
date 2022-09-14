@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     Optional<Product> findByProductToken(String productToken);
 }

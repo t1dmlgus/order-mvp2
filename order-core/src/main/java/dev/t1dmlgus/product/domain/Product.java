@@ -15,6 +15,7 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
+@Table(name = "products")
 @Entity
 public class Product extends AbstractEntity {
 
@@ -29,8 +30,8 @@ public class Product extends AbstractEntity {
     @Convert(converter = MoneyConverter.class)
     private Money price;
 
-    @Version
-    private Long version;
+//    @Version
+//    private Long version;
 
     private int stock;
 

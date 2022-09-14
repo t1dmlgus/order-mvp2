@@ -18,7 +18,7 @@ public class OrderService {
     private final OrderLineFactory orderLineFactory;
     private final OrderRepository orderRepository;
 
-//    @Transactional
+    @Transactional
     public synchronized String placeOrder(OrderCommand.PlaceOrder placeOrder){
 
          List<OrderLine> orderLines = orderLineFactory.store(placeOrder.getOrderProducts());
