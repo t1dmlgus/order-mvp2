@@ -25,12 +25,18 @@ class OrderLineFactoryTest {
     private ProductRepository productRepository;
 
     private Product product;
+    private Product product1;
+    private Product product2;
 
     @BeforeEach
     public void before(){
 
         product = Product.newInstance("셜록홈즈", 14_000, 80);
+        product1 = Product.newInstance("셜록홈즈2", 14_000, 30);
+        product2 = Product.newInstance("셜록홈즈3", 14_000, 50);
         productRepository.save(product);
+        productRepository.save(product1);
+        productRepository.save(product2);
     }
 
     @AfterEach
@@ -44,11 +50,21 @@ class OrderLineFactoryTest {
 
         List<OrderCommand.OrderProduct> ar = new ArrayList<>();
         ar.add(OrderCommand.OrderProduct.newInstance(product.getProductToken(), 3));
+        ar.add(OrderCommand.OrderProduct.newInstance(product1.getProductToken(), 7));
+        ar.add(OrderCommand.OrderProduct.newInstance(product2.getProductToken(), 2));
 
         List<OrderLine> store = orderLineFactory.store(ar);
-        product = productRepository.findByProductToken(product.getProductToken())
-                .orElseThrow();
+
+        product = productRepository.findByProductToken(product.getProductToken()).orElseThrow();
+        product1 = productRepository.findByProductToken(product1.getProductToken()).orElseThrow();
+        product2 = productRepository.findByProductToken(product2.getProductToken()).orElseThrow();
 
         Assertions.assertThat(product.getStock()).isEqualTo(77);
+        Assertions.assertThat(product1.getStock()).isEqualTo(23);
+        Assertions.assertThat(product2.getStock()).isEqualTo(48);
     }
+
+
+
+
 }
