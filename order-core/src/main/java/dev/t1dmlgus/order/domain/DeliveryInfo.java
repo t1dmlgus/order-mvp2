@@ -2,19 +2,21 @@ package dev.t1dmlgus.order.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 
 @Getter
+@NoArgsConstructor
 @Embeddable
 public class DeliveryInfo {
 
-    private final String receiverName;
-    private final String receiverPhoneNum;
-    private final String zipCode;
-    private final String address1;
-    private final String address2;
-    private final String msg;
+    private String receiverName;
+    private String receiverPhoneNum;
+    private String zipCode;
+    private String address1;
+    private String address2;
+    private String msg;
 
     @Builder
     public DeliveryInfo(String receiverName, String receiverPhoneNum, String zipCode, String address1, String address2, String msg) {
