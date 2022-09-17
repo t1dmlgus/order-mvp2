@@ -6,6 +6,7 @@ import dev.t1dmlgus.product.domain.ProductRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,6 +46,7 @@ class OrderLineFactoryTest {
     }
 
 
+    @DisplayName("주문 후 상품 재고 감소 테스트")
     @Test
     void decrease_orderLine_stock() {
 

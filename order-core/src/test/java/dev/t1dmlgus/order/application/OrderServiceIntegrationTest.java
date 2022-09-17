@@ -3,10 +3,12 @@ package dev.t1dmlgus.order.application;
 
 import dev.t1dmlgus.common.error.ErrorType;
 import dev.t1dmlgus.common.error.exception.NotFoundException;
+import dev.t1dmlgus.common.error.exception.OutOfException;
 import dev.t1dmlgus.common.util.TokenUtil;
 import dev.t1dmlgus.product.domain.Product;
 import dev.t1dmlgus.product.domain.ProductRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +40,7 @@ public class OrderServiceIntegrationTest {
 
         Product beforeProduct = Product.newInstance("셜록홈즈", 14_000, 40);
         testProduct = productRepository.save(beforeProduct);
-        productToken = beforeProduct.getProductToken();
+        productToken = testProduct.getProductToken();
         memberToken = TokenUtil.generateToken("member");
         orderDeliveryInfo =
                 OrderCommand.OrderDeliveryInfo.newInstance(
@@ -50,6 +52,10 @@ public class OrderServiceIntegrationTest {
                 "빠른 배송 바랍니다.");
     }
 
+    @AfterEach
+    public void after(){
+        productRepository.delete(testProduct);
+    }
 
 
     @DisplayName("상품(재고:40) 3개를 주문하면 상품 재고는 37개가 남는다.")
@@ -68,11 +74,10 @@ public class OrderServiceIntegrationTest {
         orderService.placeOrder(placeOrder);
 
         // then
-        Product product = productRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("상품이 존재하지 않습니다."));
+        Product product = productRepository.findByProductName("셜록홈즈")
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_PRODUCT));
         Assertions.assertThat(product.getStock()).isEqualTo(37);
     }
-
 
 
     @DisplayName("상품(재고:40) 3개씩 동시에 100개를 주문하면 상품 재고는 1개가 남는다.")
@@ -103,9 +108,25 @@ public class OrderServiceIntegrationTest {
         countDownLatch.await();
 
         // then
-        Product product = productRepository.findById(1L)
+        Product product = productRepository.findByProductName("셜록홈즈")
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_ORDER));
         Assertions.assertThat(product.getStock()).isEqualTo(1);
     }
 
+
+    @DisplayName("재고가 모자라는 경우 재고 예외가 발생한다.")
+    @Test
+    void product_order_count_is_large_then_stock_will_return_out_of_exception() throws InterruptedException {
+
+        // given
+        List<OrderCommand.OrderProduct> orderProducts =
+                List.of(OrderCommand.OrderProduct.newInstance(productToken, 41));
+        OrderCommand.PlaceOrder placeOrder =
+                OrderCommand.PlaceOrder.newInstance(orderProducts, memberToken, orderDeliveryInfo);
+
+        // then
+        Assertions.assertThatThrownBy(() -> orderService.placeOrder(placeOrder))
+                .isInstanceOf(OutOfException.class);
+
+    }
 }

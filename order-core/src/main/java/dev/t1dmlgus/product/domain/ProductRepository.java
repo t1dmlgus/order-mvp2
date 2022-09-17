@@ -10,4 +10,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     Optional<Product> findByProductToken(String productToken);
+
+    Optional<Product> findByProductName(String name);
 }
