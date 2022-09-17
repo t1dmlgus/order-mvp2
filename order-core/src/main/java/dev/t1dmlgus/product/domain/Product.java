@@ -2,6 +2,8 @@ package dev.t1dmlgus.product.domain;
 
 
 
+import dev.t1dmlgus.common.error.ErrorType;
+import dev.t1dmlgus.common.error.exception.OutOfException;
 import dev.t1dmlgus.common.util.AbstractEntity;
 import dev.t1dmlgus.common.util.Money;
 import dev.t1dmlgus.common.util.MoneyConverter;
@@ -29,9 +31,6 @@ public class Product extends AbstractEntity {
 
     @Convert(converter = MoneyConverter.class)
     private Money price;
-
-//    @Version
-//    private Long version;
 
     private int stock;
 
@@ -68,7 +67,6 @@ public class Product extends AbstractEntity {
         this.status = ProductStatus.ON_SALE;
     }
 
-
     public void changePrice(Money changedPrice){
         this.price = price.add(changedPrice);
     }
@@ -79,7 +77,7 @@ public class Product extends AbstractEntity {
 
     public int checkStock(int quantity){
         if (stock < quantity) {
-            throw new RuntimeException("재고가 부족합니다.");
+            throw new OutOfException(ErrorType.OUT_OF_STOCK);
         }
         return stock -= quantity;
     }

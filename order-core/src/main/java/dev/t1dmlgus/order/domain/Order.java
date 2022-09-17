@@ -1,6 +1,8 @@
 package dev.t1dmlgus.order.domain;
 
 
+import dev.t1dmlgus.common.error.ErrorType;
+import dev.t1dmlgus.common.error.exception.NotFoundException;
 import dev.t1dmlgus.common.util.AbstractEntity;
 import dev.t1dmlgus.common.util.Money;
 import dev.t1dmlgus.common.util.MoneyConverter;
@@ -97,7 +99,7 @@ public class Order extends AbstractEntity {
 
     private void verifyOrderLines(List<OrderLine> orderLines) {
         if(orderLines == null || orderLines.isEmpty())
-            throw new IllegalArgumentException("주문 상품이 없습니다.");
+            throw new NotFoundException(ErrorType.NOT_FOUND_ORDER);
     }
 
 

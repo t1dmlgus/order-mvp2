@@ -1,6 +1,8 @@
 package dev.t1dmlgus.order.application;
 
 
+import dev.t1dmlgus.common.error.ErrorType;
+import dev.t1dmlgus.common.error.exception.NotFoundException;
 import dev.t1dmlgus.common.util.TokenUtil;
 import dev.t1dmlgus.product.domain.Product;
 import dev.t1dmlgus.product.domain.ProductRepository;
@@ -21,7 +23,6 @@ public class OrderServiceIntegrationTest {
 
     @Autowired
     private OrderService orderService;
-
     @Autowired
     private ProductRepository productRepository;
 
@@ -82,7 +83,7 @@ public class OrderServiceIntegrationTest {
         List<OrderCommand.OrderProduct> orderProducts =
                 List.of(OrderCommand.OrderProduct.newInstance(productToken, 3));
 
-        int threadCount = 1000;
+        int threadCount = 100;
         ExecutorService executorService = Executors.newFixedThreadPool(30);
         CountDownLatch countDownLatch = new CountDownLatch(threadCount);
 
@@ -90,12 +91,12 @@ public class OrderServiceIntegrationTest {
         for (int k = 0; k < threadCount; k++) {
             executorService.submit(() -> {
                 try {
-                    orderService.placeOrder(
-                            OrderCommand.PlaceOrder.newInstance(
-                                    orderProducts, memberToken, orderDeliveryInfo));
+                    OrderCommand.PlaceOrder placeOrder =
+                            OrderCommand.PlaceOrder.newInstance(orderProducts, memberToken, orderDeliveryInfo);
+                    orderService.placeOrder(placeOrder);
+
                 } finally {
                     countDownLatch.countDown();
-
                 }
             });
         }
@@ -103,8 +104,8 @@ public class OrderServiceIntegrationTest {
 
         // then
         Product product = productRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("상품이 존재하지 않습니다."));
-        Assertions.assertThat(product.getStock()).isEqualTo(37);
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_ORDER));
+        Assertions.assertThat(product.getStock()).isEqualTo(1);
     }
 
 }
