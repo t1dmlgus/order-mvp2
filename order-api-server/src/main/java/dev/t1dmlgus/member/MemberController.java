@@ -1,10 +1,10 @@
 package dev.t1dmlgus.member;
 
 
-import dev.t1dmlgus.common.response.CommonResponse;
 import dev.t1dmlgus.member.application.MemberCommand;
 import dev.t1dmlgus.member.application.MemberInfo;
 import dev.t1dmlgus.member.application.MemberService;
+import dev.t1dmlgus.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

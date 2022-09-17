@@ -1,6 +1,9 @@
 package dev.t1dmlgus.order.domain;
 
 
+import dev.t1dmlgus.common.error.ErrorType;
+import dev.t1dmlgus.common.error.exception.NotFoundException;
+import dev.t1dmlgus.common.error.exception.NotValidException;
 import dev.t1dmlgus.common.util.AbstractEntity;
 import dev.t1dmlgus.common.util.Money;
 import dev.t1dmlgus.common.util.MoneyConverter;
@@ -75,7 +78,7 @@ public class Order extends AbstractEntity {
 
     private void setMemberToken(String memberToken) {
         if (memberToken.equals("")) {
-            throw new IllegalArgumentException("주문자는 필수입니다.");
+            throw new NotValidException(ErrorType.INVALID_PARAMETER_MEMBER_TOKEN);
         }
         this.memberToken = memberToken;
     }
@@ -83,7 +86,7 @@ public class Order extends AbstractEntity {
 
     private void setDelivery(DeliveryInfo deliveryInfo) {
         if(deliveryInfo == null){
-            throw new IllegalArgumentException("배송 정보는 필수입니다.");
+            throw new NotValidException(ErrorType.INVALID_PARAMETER_DELIVERY);
         }
         this.deliveryInfo = deliveryInfo;
     }
@@ -97,7 +100,7 @@ public class Order extends AbstractEntity {
 
     private void verifyOrderLines(List<OrderLine> orderLines) {
         if(orderLines == null || orderLines.isEmpty())
-            throw new IllegalArgumentException("주문 상품이 없습니다.");
+            throw new NotFoundException(ErrorType.NOT_FOUND_ORDER);
     }
 
 
@@ -116,7 +119,7 @@ public class Order extends AbstractEntity {
 
     private void verifyNotYetShipped() {
         if(orderState != OrderState.PAYMENT_COMPLETE && orderState != OrderState.PAYMENT_WAITING){
-            throw new IllegalStateException("배송지 변경을 할수 없습니다."); // 추후 예외처리
+            throw new NotValidException(ErrorType.INVALID_CHANGE_DELIVERY);
         }
     }
 
