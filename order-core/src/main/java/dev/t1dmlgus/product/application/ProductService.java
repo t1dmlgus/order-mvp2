@@ -1,6 +1,8 @@
 package dev.t1dmlgus.product.application;
 
 
+import dev.t1dmlgus.common.error.ErrorType;
+import dev.t1dmlgus.common.error.exception.NotFoundException;
 import dev.t1dmlgus.product.domain.Product;
 import dev.t1dmlgus.product.domain.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductInfo.ProductDetail view(String productToken) {
         Product product = productRepository.findByProductToken(productToken)
-                .orElseThrow(() -> new RuntimeException("해당 상품이 없습니다."));
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_PRODUCT));
         return ProductInfo.ProductDetail.newInstance(product);
     }
 }

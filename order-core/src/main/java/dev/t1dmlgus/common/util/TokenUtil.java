@@ -1,5 +1,8 @@
 package dev.t1dmlgus.common.util;
 
+import dev.t1dmlgus.common.error.ErrorType;
+import dev.t1dmlgus.common.error.exception.BusinessException;
+
 import java.util.UUID;
 
 public class TokenUtil {
@@ -10,13 +13,13 @@ public class TokenUtil {
 
         String prefix = "";
         if (type.equals("order")) {
-            prefix = "A";
+            prefix = "R";
         } else if (type.equals("member")) {
             prefix = "M";
         }else if (type.equals("product")) {
             prefix = "P";
         }else {
-            throw new RuntimeException("토큰을 생성할 수 없습니다(토큰타입예외)");
+            throw new BusinessException(ErrorType.GENERATE_TOKEN_ERROR);
         }
 
         return createToken(prefix);

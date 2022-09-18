@@ -28,7 +28,8 @@ public class ProductInfo {
 
 
     @Getter
-    public static class ProductDetail extends ProductInfo{
+
+    public static class ProductDetail{
 
         private String productToken;
         private String productName;
