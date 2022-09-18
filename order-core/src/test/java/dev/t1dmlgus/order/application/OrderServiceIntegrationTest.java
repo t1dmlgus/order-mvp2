@@ -74,7 +74,7 @@ public class OrderServiceIntegrationTest {
         orderService.placeOrder(placeOrder);
 
         // then
-        Product product = productRepository.findByProductName("셜록홈즈")
+        Product product = productRepository.findByName("셜록홈즈")
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_PRODUCT));
         Assertions.assertThat(product.getStock()).isEqualTo(37);
     }
@@ -108,7 +108,7 @@ public class OrderServiceIntegrationTest {
         countDownLatch.await();
 
         // then
-        Product product = productRepository.findByProductName("셜록홈즈")
+        Product product = productRepository.findByName("셜록홈즈")
                 .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_ORDER));
         Assertions.assertThat(product.getStock()).isEqualTo(1);
     }

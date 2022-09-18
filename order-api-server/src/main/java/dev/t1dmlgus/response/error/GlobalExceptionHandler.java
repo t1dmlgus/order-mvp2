@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
-    @ExceptionHandler(value = NotValidException.class)
+    @ExceptionHandler(value = InvalidException.class)
     public ResponseEntity<Object> notValidException(BusinessException e, HttpServletRequest httpServletRequest) {
 
         ErrorResponse response = ErrorResponse.of(e.getErrorType(), httpServletRequest);

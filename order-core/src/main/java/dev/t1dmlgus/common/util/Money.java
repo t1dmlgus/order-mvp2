@@ -7,18 +7,22 @@ import java.util.Objects;
 @Getter
 public class Money {
 
-    private final int value;
+    private final double value;
 
-    public Money(int value) {
+    public Money(double value) {
         this.value = value;
     }
 
-    public Money add(Money money) {
+    public Money plus(Money money) {
         return new Money(this.value + money.value);
     }
 
-    public Money multiply(int multiplier) {
+    public Money multiply(double multiplier) {
         return new Money(value * multiplier);
+    }
+
+    public Money minus(Money money) {
+        return new Money(value - money.value);
     }
 
 
