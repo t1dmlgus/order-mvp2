@@ -1,4 +1,4 @@
-package dev.t1dmlgus.config;
+package dev.t1dmlgus.common.config;
 
 
 import org.springframework.context.annotation.Configuration;
