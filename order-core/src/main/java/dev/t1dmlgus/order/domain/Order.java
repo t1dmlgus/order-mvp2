@@ -2,8 +2,8 @@ package dev.t1dmlgus.order.domain;
 
 
 import dev.t1dmlgus.common.error.ErrorType;
+import dev.t1dmlgus.common.error.exception.InvalidException;
 import dev.t1dmlgus.common.error.exception.NotFoundException;
-import dev.t1dmlgus.common.error.exception.NotValidException;
 import dev.t1dmlgus.common.util.AbstractEntity;
 import dev.t1dmlgus.common.util.Money;
 import dev.t1dmlgus.common.util.MoneyConverter;
@@ -78,7 +78,7 @@ public class Order extends AbstractEntity {
 
     private void setMemberToken(String memberToken) {
         if (memberToken.equals("")) {
-            throw new NotValidException(ErrorType.INVALID_PARAMETER_MEMBER_TOKEN);
+            throw new InvalidException(ErrorType.INVALID_PARAMETER_MEMBER_TOKEN);
         }
         this.memberToken = memberToken;
     }
@@ -86,7 +86,7 @@ public class Order extends AbstractEntity {
 
     private void setDelivery(DeliveryInfo deliveryInfo) {
         if(deliveryInfo == null){
-            throw new NotValidException(ErrorType.INVALID_PARAMETER_DELIVERY);
+            throw new InvalidException(ErrorType.INVALID_PARAMETER_DELIVERY);
         }
         this.deliveryInfo = deliveryInfo;
     }
@@ -105,10 +105,14 @@ public class Order extends AbstractEntity {
 
 
     public void calculateTotalAmounts(){
-        int sum = orderLines.stream()
-                .mapToInt(i -> i.getAmounts().getValue())
+        double sum = orderLines.stream()
+                .mapToDouble(i -> i.getAmounts().getValue())
                 .sum();
         this.totalAmounts = new Money(sum);
+    }
+
+    public void discountTotalAmount(Money discountMoney) {
+        this.totalAmounts.minus(discountMoney);
     }
 
 
@@ -119,7 +123,7 @@ public class Order extends AbstractEntity {
 
     private void verifyNotYetShipped() {
         if(orderState != OrderState.PAYMENT_COMPLETE && orderState != OrderState.PAYMENT_WAITING){
-            throw new NotValidException(ErrorType.INVALID_CHANGE_DELIVERY);
+            throw new InvalidException(ErrorType.INVALID_CHANGE_DELIVERY);
         }
     }
 

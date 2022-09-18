@@ -68,7 +68,7 @@ public class Product extends AbstractEntity {
     }
 
     public void changePrice(Money changedPrice){
-        this.price = price.add(changedPrice);
+        this.price = price.plus(changedPrice);
     }
 
     public void changeProductName(String productName){

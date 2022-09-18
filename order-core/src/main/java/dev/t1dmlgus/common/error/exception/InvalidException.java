@@ -4,8 +4,8 @@ import dev.t1dmlgus.common.error.ErrorType;
 import lombok.Getter;
 
 @Getter
-public class NotValidException extends BusinessException{
-    public NotValidException(ErrorType errorType) {
+public class InvalidException extends BusinessException{
+    public InvalidException(ErrorType errorType) {
         super(errorType);
     }
 }
