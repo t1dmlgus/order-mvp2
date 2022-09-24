@@ -12,21 +12,25 @@ public class MemberCommand {
         private final String name;
         private final String email;
 
+        private final String password;
+
         @Builder
-        public JoinUser(String name, String email) {
+        public JoinUser(String name, String email, String password) {
             this.name = name;
             this.email = email;
+            this.password = password;
         }
 
-        public static JoinUser newInstance(String name, String email){
+        public static JoinUser newInstance(String name, String email, String password){
             return JoinUser.builder()
                     .name(name)
                     .email(email)
+                    .password(password)
                     .build();
         }
 
         public Member toMember() {
-            return Member.newInstance(name, email);
+            return Member.newInstance(name, email, password);
         }
     }
 }

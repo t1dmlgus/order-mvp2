@@ -44,9 +44,8 @@ class MemberControllerTest {
     void joinMember() throws Exception {
 
         //given
-        String memberToken = "M123456789";
         MemberDto.JoinMember memberDto
-                = new MemberDto.JoinMember("이의현", "dmlgusgngl@gmail.com");
+                = new MemberDto.JoinMember("이의현", "dmlgusgngl@gmail.com","1234");
         Member member = memberDto.toCommand().toMember();
         given(memberService.join(any(MemberCommand.JoinUser.class)))
                 .willReturn(MemberInfo.MemberToken.newInstance(member));

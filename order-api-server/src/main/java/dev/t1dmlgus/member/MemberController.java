@@ -11,18 +11,29 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RequiredArgsConstructor
 @RestController
 public class MemberController {
 
     private final MemberService memberService;
 
+    /**
+     * 회원가입 엔드포인트
+     *
+     * @param joinDto dto to join
+     * @return memberToken, resultCode, message
+     */
     @PostMapping("/api/v1/members")
-    public ResponseEntity<CommonResponse<MemberInfo.MemberToken>> joinMember(@RequestBody MemberDto.JoinMember memberDto) {
+    public ResponseEntity<CommonResponse<MemberInfo.MemberToken>> joinMember(@RequestBody MemberDto.JoinMember joinDto) {
 
-        MemberCommand.JoinUser memberCommand = memberDto.toCommand();
+        MemberCommand.JoinUser memberCommand = joinDto.toCommand();
         MemberInfo.MemberToken memberToken = memberService.join(memberCommand);
         return ResponseEntity.ok(CommonResponse.of(memberToken, "회원가입이 완료되었습니다."));
     }
+
+
+
+
 
 }

@@ -20,13 +20,17 @@ public class MemberDto {
         @NotBlank(message = "이메일을 입력해주세요")
         private String email;
 
-        public JoinMember(String name, String email) {
+        @NotBlank(message = "비밀번호를 입력해주세요")
+        private String password;
+
+        public JoinMember(String name, String email, String password) {
             this.name = name;
             this.email = email;
+            this.password = password;
         }
 
         public MemberCommand.JoinUser toCommand(){
-            return MemberCommand.JoinUser.newInstance(name, email);
+            return MemberCommand.JoinUser.newInstance(name, email, password);
         }
     }
 }
