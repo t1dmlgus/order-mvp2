@@ -1,18 +1,21 @@
 package dev.t1dmlgus.order.application;
 
 
-import dev.t1dmlgus.order.domain.OrderRepository;
+import dev.t1dmlgus.common.error.ErrorType;
+import dev.t1dmlgus.common.error.exception.NotFoundException;
+import dev.t1dmlgus.common.error.exception.OutOfException;
+import dev.t1dmlgus.common.util.TokenUtil;
 import dev.t1dmlgus.product.domain.Product;
 import dev.t1dmlgus.product.domain.ProductRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,30 +25,31 @@ public class OrderServiceIntegrationTest {
 
     @Autowired
     private OrderService orderService;
-
-    @Autowired
-    private OrderLineFactory orderLineFactory;
-
-    @Autowired
-    private OrderRepository orderRepository;
-
     @Autowired
     private ProductRepository productRepository;
 
+    private OrderCommand.OrderDeliveryInfo orderDeliveryInfo;
     private Product testProduct;
+    private String productToken;
+    private String memberToken;
 
-    private ArrayList<OrderCommand.OrderProduct> ar = new ArrayList<>();
 
-    String productToken = "P3c6ca394fe91";
 
     @BeforeEach
     public void before(){
 
-        Product beforePersistenceProduct = Product.newInstance("셜록홈즈", 14_000, 40);
-        testProduct = productRepository.saveAndFlush(beforePersistenceProduct);
-
-
-        ar.add(OrderCommand.OrderProduct.newInstance(productToken, 1));
+        Product beforeProduct = Product.newInstance("셜록홈즈", 14_000, 40);
+        testProduct = productRepository.save(beforeProduct);
+        productToken = testProduct.getProductToken();
+        memberToken = TokenUtil.generateToken("member");
+        orderDeliveryInfo =
+                OrderCommand.OrderDeliveryInfo.newInstance(
+                "이의현",
+                "010-2307-1039",
+                "430-11",
+                "경기도 안양시",
+                "만안구 박달동",
+                "빠른 배송 바랍니다.");
     }
 
     @AfterEach
@@ -54,37 +58,75 @@ public class OrderServiceIntegrationTest {
     }
 
 
-
-
-    @Transactional
+    @DisplayName("상품(재고:40) 3개를 주문하면 상품 재고는 37개가 남는다.")
     @Test
-    void placeOrder_100_order_at_the_same_time() throws InterruptedException {
+    void productQuantity_3_return_37(){
 
-        String memberToken = "M12345678";
+        // given
+        int productQuantity = 3;
+        OrderCommand.PlaceOrder placeOrder =
+                OrderCommand.PlaceOrder.newInstance(
+                        List.of(OrderCommand.OrderProduct.newInstance(productToken, productQuantity)),
+                        memberToken,
+                        orderDeliveryInfo);
 
-        int threadCount = 3;
-        ExecutorService executorService = Executors.newFixedThreadPool(30);
-        CountDownLatch latch = new CountDownLatch(threadCount);
+        // when
+        orderService.placeOrder(placeOrder);
 
-        for (int k = 0; k < threadCount; k++) {
-            executorService.submit(() -> {
-                try {
-                    orderService.placeOrder(OrderCommand.PlaceOrder.newInstance(ar, memberToken, null));
-                } finally {
-                    latch.countDown();
-
-                }
-            });
-        }
-        
-        latch.await();
-
-        Product product = productRepository.findByProductToken(productToken)
-                .orElseThrow();
-
-        System.out.println("product.getStock() = " + product.getStock());
+        // then
+        Product product = productRepository.findByName("셜록홈즈")
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_PRODUCT));
         Assertions.assertThat(product.getStock()).isEqualTo(37);
     }
 
 
+    @DisplayName("상품(재고:40) 3개씩 동시에 100개를 주문하면 상품 재고는 1개가 남는다.")
+    @Test
+    void order_100_at_the_same_time_return_1() throws InterruptedException {
+
+        // given
+        List<OrderCommand.OrderProduct> orderProducts =
+                List.of(OrderCommand.OrderProduct.newInstance(productToken, 3));
+
+        int threadCount = 100;
+        ExecutorService executorService = Executors.newFixedThreadPool(30);
+        CountDownLatch countDownLatch = new CountDownLatch(threadCount);
+
+        // when
+        for (int k = 0; k < threadCount; k++) {
+            executorService.submit(() -> {
+                try {
+                    OrderCommand.PlaceOrder placeOrder =
+                            OrderCommand.PlaceOrder.newInstance(orderProducts, memberToken, orderDeliveryInfo);
+                    orderService.placeOrder(placeOrder);
+
+                } finally {
+                    countDownLatch.countDown();
+                }
+            });
+        }
+        countDownLatch.await();
+
+        // then
+        Product product = productRepository.findByName("셜록홈즈")
+                .orElseThrow(() -> new NotFoundException(ErrorType.NOT_FOUND_ORDER));
+        Assertions.assertThat(product.getStock()).isEqualTo(1);
+    }
+
+
+    @DisplayName("재고가 모자라는 경우 재고 예외가 발생한다.")
+    @Test
+    void product_order_count_is_large_then_stock_will_return_out_of_exception() throws InterruptedException {
+
+        // given
+        List<OrderCommand.OrderProduct> orderProducts =
+                List.of(OrderCommand.OrderProduct.newInstance(productToken, 41));
+        OrderCommand.PlaceOrder placeOrder =
+                OrderCommand.PlaceOrder.newInstance(orderProducts, memberToken, orderDeliveryInfo);
+
+        // then
+        Assertions.assertThatThrownBy(() -> orderService.placeOrder(placeOrder))
+                .isInstanceOf(OutOfException.class);
+
+    }
 }

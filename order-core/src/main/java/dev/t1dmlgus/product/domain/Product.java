@@ -1,6 +1,9 @@
 package dev.t1dmlgus.product.domain;
 
 
+
+import dev.t1dmlgus.common.error.ErrorType;
+import dev.t1dmlgus.common.error.exception.OutOfException;
 import dev.t1dmlgus.common.util.AbstractEntity;
 import dev.t1dmlgus.common.util.Money;
 import dev.t1dmlgus.common.util.MoneyConverter;
@@ -14,6 +17,7 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @Getter
+@Table(name = "products")
 @Entity
 public class Product extends AbstractEntity {
 
@@ -27,10 +31,6 @@ public class Product extends AbstractEntity {
 
     @Convert(converter = MoneyConverter.class)
     private Money price;
-
-    @Version
-    private Long version;
-
 
     private int stock;
 
@@ -67,20 +67,18 @@ public class Product extends AbstractEntity {
         this.status = ProductStatus.ON_SALE;
     }
 
-
     public void changePrice(Money changedPrice){
-        this.price = price.add(changedPrice);
+        this.price = price.plus(changedPrice);
     }
 
     public void changeProductName(String productName){
         this.name = productName;
     }
 
-    public void checkStock(int quantity){
+    public int checkStock(int quantity){
         if (stock < quantity) {
-            throw new RuntimeException("재고가 부족합니다.");
+            throw new OutOfException(ErrorType.OUT_OF_STOCK);
         }
-        System.out.println(" 22 ");
-        stock -= quantity;
+        return stock -= quantity;
     }
 }

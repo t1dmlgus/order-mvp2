@@ -102,6 +102,15 @@ public class OrderCommand {
     }
 
 
+    @Getter
+    public static class PayOrder{
+
+        private String orderToken;
+        private String coupon;
+
+    }
+
+
 
 
 

@@ -28,6 +28,7 @@ public class ProductInfo {
 
 
     @Getter
+
     public static class ProductDetail{
 
         private String productToken;
@@ -47,7 +48,7 @@ public class ProductInfo {
             return ProductDetail.builder()
                     .productToken(product.getProductToken())
                     .productName(product.getName())
-                    .price(product.getPrice().getValue())
+                    .price((int) product.getPrice().getValue())
                     .productStatus(product.getStatus().getDescription())
                     .build();
         }
