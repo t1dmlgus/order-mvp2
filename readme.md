@@ -22,7 +22,7 @@
 
 ## 실행
 
-docker(mysql) 
+docker
 ```
 
 ```
