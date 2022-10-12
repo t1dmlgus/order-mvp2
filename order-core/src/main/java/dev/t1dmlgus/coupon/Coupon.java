@@ -1,4 +1,4 @@
-package dev.t1dmlgus.order.domain.coupon;
+package dev.t1dmlgus.coupon;
 
 import dev.t1dmlgus.order.domain.Order;
 import lombok.Getter;

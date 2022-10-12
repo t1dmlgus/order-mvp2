@@ -5,6 +5,7 @@ import dev.t1dmlgus.common.util.Money;
 import dev.t1dmlgus.order.domain.Order;
 import dev.t1dmlgus.order.domain.OrderLine;
 import dev.t1dmlgus.order.domain.OrderRepository;
+import dev.t1dmlgus.order.infrastructure.OrderLineFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -68,7 +69,8 @@ class OrderServiceTest {
         orderLines.add(new OrderLine("B222222",new Money(2000),3));
         orderLines.add(new OrderLine("B333333",new Money(5000),3));
 
-        Order order = Order.newInstance(orderLines, memberToken, placeOrder.getDeliveryInfo());
+        Order order = Order.newInstance(memberToken, placeOrder.getDeliveryInfo());
+        order.setOrderLines(orderLines);
 
         // when
         Mockito.when(orderLineFactory.store(ar)).thenReturn(orderLines);

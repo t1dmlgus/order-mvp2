@@ -56,7 +56,7 @@ class OrderControllerTest {
                 "이의현", "010-2307-1039", "430-07",
                 "안양시 만안구", "박달동", "빠른 배송바랍니다.");
 
-        OrderDto.PlaceOrder placeOrderDto = new OrderDto.PlaceOrder(ar, memberToken, deliveryInfo);
+        OrderDto.PlaceOrder placeOrderDto = new OrderDto.PlaceOrder(ar);
         String json = new ObjectMapper().writeValueAsString(placeOrderDto);
 
         given(orderService.placeOrder(any(OrderCommand.PlaceOrder.class)))

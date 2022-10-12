@@ -33,4 +33,26 @@ public class MemberDto {
             return MemberCommand.JoinUser.newInstance(name, email, password);
         }
     }
+
+
+    @NoArgsConstructor
+    @ToString
+    @Getter
+    public static class login{
+
+        @NotBlank(message = "이메일을 입력해주세요")
+        private String email;
+
+        @NotBlank(message = "비밀번호를 입력해주세요")
+        private String password;
+
+        public login(String email, String password) {
+            this.email = email;
+            this.password = password;
+        }
+
+        public MemberCommand.login toCommand(){
+            return MemberCommand.login.newInstance(email, password);
+        }
+    }
 }

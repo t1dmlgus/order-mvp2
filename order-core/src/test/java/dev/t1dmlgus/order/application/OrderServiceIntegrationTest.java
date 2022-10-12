@@ -60,7 +60,7 @@ public class OrderServiceIntegrationTest {
 
     @DisplayName("상품(재고:40) 3개를 주문하면 상품 재고는 37개가 남는다.")
     @Test
-    void productQuantity_3_return_37(){
+    void productQuantity_3_return_37() throws InterruptedException {
 
         // given
         int productQuantity = 3;

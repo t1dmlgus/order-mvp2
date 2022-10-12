@@ -15,7 +15,7 @@ public class MemberCommand {
         private final String password;
 
         @Builder
-        public JoinUser(String name, String email, String password) {
+        private JoinUser(String name, String email, String password) {
             this.name = name;
             this.email = email;
             this.password = password;
@@ -31,6 +31,27 @@ public class MemberCommand {
 
         public Member toMember() {
             return Member.newInstance(name, email, password);
+        }
+    }
+
+    @Getter
+    public static class login {
+
+        private final String email;
+
+        private final String password;
+
+        @Builder
+        private login(String email, String password) {
+            this.email = email;
+            this.password = password;
+        }
+
+        public static login newInstance(String email, String password){
+            return login.builder()
+                    .email(email)
+                    .password(password)
+                    .build();
         }
     }
 }

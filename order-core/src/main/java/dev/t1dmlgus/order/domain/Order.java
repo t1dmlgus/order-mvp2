@@ -30,7 +30,6 @@ public class Order extends AbstractEntity {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "order_lines", joinColumns = @JoinColumn(name="order_id"))
-    @OrderColumn(name = "order_line_id")
     private List<OrderLine> orderLines;
 
     private String memberToken;
@@ -41,7 +40,7 @@ public class Order extends AbstractEntity {
     @Embedded
     private DeliveryInfo deliveryInfo;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private OrderState orderState;
 
 
@@ -60,19 +59,16 @@ public class Order extends AbstractEntity {
     }
 
     @Builder
-    private Order(List<OrderLine> orderLines, String memberToken, DeliveryInfo deliveryInfo) {
-        setOrderLines(orderLines);
-        setDelivery(deliveryInfo);
+    private Order(String memberToken, DeliveryInfo deliveryInfo) {
+        //setDelivery(deliveryInfo);
         setMemberToken(memberToken);
         this.orderState = OrderState.PAYMENT_WAITING;
         this.orderToken = TokenUtil.generateToken("order");
     }
 
-    public static Order newInstance(List<OrderLine> orderLines, String memberToken, DeliveryInfo deliveryInfo){
+    public static Order newInstance(String memberToken){
         return Order.builder()
-                .orderLines(orderLines)
                 .memberToken(memberToken)
-                .deliveryInfo(deliveryInfo)
                 .build();
     }
 
@@ -92,7 +88,7 @@ public class Order extends AbstractEntity {
     }
 
 
-    private void setOrderLines(List<OrderLine> orderLines) {
+    public void setOrderLines(List<OrderLine> orderLines) {
         verifyOrderLines(orderLines);
         this.orderLines = orderLines;
         calculateTotalAmounts();

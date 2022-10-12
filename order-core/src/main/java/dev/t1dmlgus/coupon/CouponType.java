@@ -1,4 +1,4 @@
-package dev.t1dmlgus.order.domain.coupon;
+package dev.t1dmlgus.coupon;
 
 import lombok.Getter;
 
@@ -20,13 +20,13 @@ public enum CouponType {
     IT_COUPON {
         @Override
         public Coupon create() {
-            return null;
+            return new ItCategoryCoupon();
         }
     },
     EMPLOYMENT_COUPON {
         @Override
         public Coupon create() {
-            return null;
+            return new JobCategoryCoupon();
         }
     };
 

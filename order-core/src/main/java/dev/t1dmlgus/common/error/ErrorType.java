@@ -13,11 +13,14 @@ public enum ErrorType {
     COMMON_INVALID_PARAMETER( "요청한 값이 올바르지 않습니다."),
     INTERNAL_SERVER_ERROR("서버 내부 에러"),
     GENERATE_TOKEN_ERROR("토큰을 생성할 수 없습니다(토큰타입예외)"),
+    UNAUTHORIZED("인증이 필요합니다."),
 
 
-    // Member
+    // Member,
     NOT_FOUND_MEMBER("회원을 찾을 수 없습니다."),
+    DUPLICATED_EMAIL("이미 사용중인 이메일입니다."),
     INVALID_PARAMETER_MEMBER_TOKEN("주문자는 필수 입니다."),
+    INVALID_LOGIN("아이디와 비밀번호가 맞지 않습니다."),
 
 
     // Product
