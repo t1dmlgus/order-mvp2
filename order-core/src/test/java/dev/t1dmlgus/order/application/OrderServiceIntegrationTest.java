@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -33,6 +34,7 @@ public class OrderServiceIntegrationTest {
     private String productToken;
     private String memberToken;
 
+    private MockHttpServletRequest request;
 
 
     @BeforeEach
@@ -50,6 +52,8 @@ public class OrderServiceIntegrationTest {
                 "경기도 안양시",
                 "만안구 박달동",
                 "빠른 배송 바랍니다.");
+
+
     }
 
     @AfterEach
@@ -67,8 +71,7 @@ public class OrderServiceIntegrationTest {
         OrderCommand.PlaceOrder placeOrder =
                 OrderCommand.PlaceOrder.newInstance(
                         List.of(OrderCommand.OrderProduct.newInstance(productToken, productQuantity)),
-                        memberToken,
-                        orderDeliveryInfo);
+                        memberToken);
 
         // when
         orderService.placeOrder(placeOrder);
@@ -97,7 +100,7 @@ public class OrderServiceIntegrationTest {
             executorService.submit(() -> {
                 try {
                     OrderCommand.PlaceOrder placeOrder =
-                            OrderCommand.PlaceOrder.newInstance(orderProducts, memberToken, orderDeliveryInfo);
+                            OrderCommand.PlaceOrder.newInstance(orderProducts, memberToken);
                     orderService.placeOrder(placeOrder);
 
                 } finally {
@@ -122,7 +125,7 @@ public class OrderServiceIntegrationTest {
         List<OrderCommand.OrderProduct> orderProducts =
                 List.of(OrderCommand.OrderProduct.newInstance(productToken, 41));
         OrderCommand.PlaceOrder placeOrder =
-                OrderCommand.PlaceOrder.newInstance(orderProducts, memberToken, orderDeliveryInfo);
+                OrderCommand.PlaceOrder.newInstance(orderProducts, memberToken);
 
         // then
         Assertions.assertThatThrownBy(() -> orderService.placeOrder(placeOrder))

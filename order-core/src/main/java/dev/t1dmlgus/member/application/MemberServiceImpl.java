@@ -35,6 +35,7 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    @Transactional
     @Override
     public MemberInfo.MemberToken login(MemberCommand.login memberCommand) {
 
