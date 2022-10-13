@@ -1,6 +1,5 @@
 package dev.t1dmlgus.order.application;
 
-import dev.t1dmlgus.order.domain.DeliveryInfo;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -15,32 +14,18 @@ public class OrderCommand {
 
         private final List<OrderProduct> orderProducts;
         private final String memberToken;
-        private final OrderDeliveryInfo orderDeliveryInfo;
+        //private final OrderDeliveryInfo orderDeliveryInfo;
 
         @Builder
-        private PlaceOrder(List<OrderProduct> orderProducts, String memberToken, OrderDeliveryInfo orderDeliveryInfo) {
+        private PlaceOrder(List<OrderProduct> orderProducts, String memberToken) {
             this.orderProducts = orderProducts;
             this.memberToken = memberToken;
-            this.orderDeliveryInfo = orderDeliveryInfo;
         }
 
-        public static PlaceOrder newInstance(List<OrderProduct> orderProducts, String memberToken,
-                                             OrderDeliveryInfo orderDeliveryInfo){
+        public static PlaceOrder newInstance(List<OrderProduct> orderProducts, String memberToken){
             return PlaceOrder.builder()
                     .orderProducts(orderProducts)
                     .memberToken(memberToken)
-                    .orderDeliveryInfo(orderDeliveryInfo)
-                    .build();
-        }
-
-        public DeliveryInfo getDeliveryInfo(){
-            return DeliveryInfo.builder()
-                    .receiverName(orderDeliveryInfo.getReceiverName())
-                    .receiverPhoneNum(orderDeliveryInfo.getReceiverPhoneNum())
-                    .zipCode(orderDeliveryInfo.getZipCode())
-                    .address1(orderDeliveryInfo.address1)
-                    .address2(orderDeliveryInfo.address2)
-                    .msg(orderDeliveryInfo.msg)
                     .build();
         }
 

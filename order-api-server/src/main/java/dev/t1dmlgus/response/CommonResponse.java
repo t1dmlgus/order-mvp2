@@ -26,6 +26,7 @@ public class CommonResponse<T> {
     public static <T> CommonResponse<T> of(String message){
         return CommonResponse.<T>builder()
                 .message(message)
+                .data((T) "")
                 .build();
     }
 }

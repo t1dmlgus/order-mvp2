@@ -24,17 +24,21 @@ public class Member extends AbstractEntity {
     private String name;
     private String email;
 
+    private String password;
+
     @Builder
-    private Member(String name, String email) {
+    private Member(String name, String email, String password) {
         this.name = name;
         this.email = email;
+        this.password = password;
         generateMemberToken();
     }
 
-    public static Member newInstance(String name, String email){
+    public static Member newInstance(String name, String email, String password){
         return Member.builder()
                 .name(name)
                 .email(email)
+                .password(password)
                 .build();
     }
 
