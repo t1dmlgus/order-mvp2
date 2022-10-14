@@ -32,6 +32,7 @@ class MemberServiceImplTest {
         MemberCommand.JoinUser memberCommand = MemberCommand.JoinUser.builder()
                 .name("이의현")
                 .email("dmlgusgngl@gmail.com")
+                .password("1234")
                 .build();
         Member member = memberCommand.toMember();
         when(memberRepository.save(any(Member.class))).thenReturn(member);

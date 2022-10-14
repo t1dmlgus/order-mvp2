@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,7 @@ public class ErrorResponse {
                 .requestUri(httpServletRequest.getRequestURI())
                 .errorCode(errorType.name())
                 .errorMessage(errorType.getMessage())
+                .errorFields(new ArrayList<>())
                 .build();
     }
 

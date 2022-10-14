@@ -1,9 +1,6 @@
 package dev.t1dmlgus.product.domain;
 
 
-
-import dev.t1dmlgus.common.error.ErrorType;
-import dev.t1dmlgus.common.error.exception.OutOfException;
 import dev.t1dmlgus.common.util.AbstractEntity;
 import dev.t1dmlgus.common.util.Money;
 import dev.t1dmlgus.common.util.MoneyConverter;
@@ -75,10 +72,12 @@ public class Product extends AbstractEntity {
         this.name = productName;
     }
 
-    public int checkStock(int quantity){
+    public String checkStock(int quantity) {
+
         if (stock < quantity) {
-            throw new OutOfException(ErrorType.OUT_OF_STOCK);
+            return this.name;
         }
-        return stock -= quantity;
+        stock -= quantity;
+        return "";
     }
 }

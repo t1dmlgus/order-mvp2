@@ -20,23 +20,24 @@ public class OrderDto {
 
         @Valid
         private List<OrderProduct> orderProducts;
-        @NotBlank(message = "유저 번호는 필수 값입니다.")
         private String memberToken;
         @Valid
         private DeliveryInfo deliveryInfo;
 
-        public PlaceOrder(List<OrderProduct> orderProducts, String memberToken, DeliveryInfo deliveryInfo) {
+        public PlaceOrder(List<OrderProduct> orderProducts) {
             this.orderProducts = orderProducts;
+        }
+
+        public void setMemberToken(String memberToken) {
             this.memberToken = memberToken;
-            this.deliveryInfo = deliveryInfo;
         }
 
         public OrderCommand.PlaceOrder toCommandOrder() {
             List<OrderCommand.OrderProduct> commandOrderProduct =
-                    orderProducts.stream().map(OrderProduct::toCommandOrderProduct).collect(Collectors.toList());
-            OrderCommand.OrderDeliveryInfo orderDeliveryInfo = deliveryInfo.toCommandDeliveryInfo();
+                    orderProducts.stream()
+                            .map(OrderProduct::toCommandOrderProduct).collect(Collectors.toList());
 
-            return OrderCommand.PlaceOrder.newInstance(commandOrderProduct, memberToken, orderDeliveryInfo);
+            return OrderCommand.PlaceOrder.newInstance(commandOrderProduct, memberToken);
         }
     }
 

@@ -3,16 +3,15 @@ package dev.t1dmlgus.order.application;
 
 import dev.t1dmlgus.common.error.ErrorType;
 import dev.t1dmlgus.common.error.exception.NotFoundException;
+import dev.t1dmlgus.coupon.Coupon;
+import dev.t1dmlgus.coupon.CouponType;
 import dev.t1dmlgus.order.domain.Order;
-import dev.t1dmlgus.order.domain.OrderLine;
 import dev.t1dmlgus.order.domain.OrderRepository;
-import dev.t1dmlgus.order.domain.coupon.Coupon;
-import dev.t1dmlgus.order.domain.coupon.CouponType;
+import dev.t1dmlgus.order.infrastructure.OrderLineFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +24,9 @@ public class OrderService {
 
     @Transactional
     public String placeOrder(OrderCommand.PlaceOrder placeOrder){
-        List<OrderLine> orderLines = orderLineFactory.store(placeOrder.getOrderProducts());
-        Order order = Order.newInstance(orderLines, placeOrder.getMemberToken(), placeOrder.getDeliveryInfo());
+
+        Order order = Order.newInstance(placeOrder.getMemberToken());
+        order.setOrderLines(orderLineFactory.store(placeOrder.getOrderProducts()));
         Order save = orderRepository.save(order);
         return save.getOrderToken();
     }
@@ -45,7 +45,7 @@ public class OrderService {
         Order order = existOrder(orderToken);
         // 쿠폰 적용
         applyCoupon(coupon_type, order);
-
+        // 결제 생성
     }
 
 
@@ -57,6 +57,8 @@ public class OrderService {
     private static void applyCoupon(String couponType, Order order) {
         Coupon coupon = CouponType.valueOf(couponType).create();
         // 추후 유효성 검증(쿠폰)
+//        coupon.validation();
+        // 쿠폰 적용(금액 할인)
         coupon.calculateCoupon(order);
     }
 

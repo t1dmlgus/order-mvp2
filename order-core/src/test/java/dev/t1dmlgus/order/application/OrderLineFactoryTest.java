@@ -1,6 +1,7 @@
 package dev.t1dmlgus.order.application;
 
 import dev.t1dmlgus.order.domain.OrderLine;
+import dev.t1dmlgus.order.infrastructure.OrderLineFactory;
 import dev.t1dmlgus.product.domain.Product;
 import dev.t1dmlgus.product.domain.ProductRepository;
 import org.assertj.core.api.Assertions;
