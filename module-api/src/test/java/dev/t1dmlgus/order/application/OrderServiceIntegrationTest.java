@@ -1,10 +1,10 @@
 package dev.t1dmlgus.order.application;
 
 
-import dev.t1dmlgus.common.error.type.ErrorType;
 import dev.t1dmlgus.common.error.exception.NotFoundException;
 import dev.t1dmlgus.common.error.exception.OutOfException;
-import dev.t1dmlgus.common.util.TokenUtil;
+import dev.t1dmlgus.common.error.type.ErrorType;
+import dev.t1dmlgus.common.util.token.Token;
 import dev.t1dmlgus.order.command.application.OrderCommand;
 import dev.t1dmlgus.order.command.application.OrderService;
 import dev.t1dmlgus.product.command.domain.Product;
@@ -45,7 +45,7 @@ public class OrderServiceIntegrationTest {
         Product beforeProduct = Product.newInstance("셜록홈즈", 14_000, 40);
         testProduct = productRepository.save(beforeProduct);
         productToken = testProduct.getProductToken();
-        memberToken = TokenUtil.generateToken("member");
+        memberToken = Token.generateToken("member");
         orderDeliveryInfo =
                 OrderCommand.OrderDeliveryInfo.newInstance(
                 "이의현",
