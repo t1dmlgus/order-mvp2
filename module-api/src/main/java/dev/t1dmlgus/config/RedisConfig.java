@@ -9,10 +9,10 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
-@EnableRedisHttpSession
-@Configuration
+
+//@EnableRedisHttpSession
+//@Configuration
 public class RedisConfig {
     @Value("${spring.redis.host}")
     public String host;
