@@ -1,12 +1,14 @@
 package dev.t1dmlgus.order.application;
 
 
-import dev.t1dmlgus.common.error.ErrorType;
+import dev.t1dmlgus.common.error.type.ErrorType;
 import dev.t1dmlgus.common.error.exception.NotFoundException;
 import dev.t1dmlgus.common.error.exception.OutOfException;
 import dev.t1dmlgus.common.util.TokenUtil;
-import dev.t1dmlgus.product.domain.Product;
-import dev.t1dmlgus.product.domain.ProductRepository;
+import dev.t1dmlgus.order.command.application.OrderCommand;
+import dev.t1dmlgus.order.command.application.OrderService;
+import dev.t1dmlgus.product.command.domain.Product;
+import dev.t1dmlgus.product.command.domain.ProductRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -119,7 +121,7 @@ public class OrderServiceIntegrationTest {
 
     @DisplayName("재고가 모자라는 경우 재고 예외가 발생한다.")
     @Test
-    void product_order_count_is_large_then_stock_will_return_out_of_exception() throws InterruptedException {
+    void product_order_count_is_large_then_stock_will_return_out_of_exception(){
 
         // given
         List<OrderCommand.OrderProduct> orderProducts =

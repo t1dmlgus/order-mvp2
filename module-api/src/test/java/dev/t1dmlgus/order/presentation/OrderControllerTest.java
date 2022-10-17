@@ -1,13 +1,16 @@
-package dev.t1dmlgus.order;
+package dev.t1dmlgus.order.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.t1dmlgus.order.application.OrderCommand;
-import dev.t1dmlgus.order.application.OrderService;
+import dev.t1dmlgus.order.command.application.OrderCommand;
+import dev.t1dmlgus.order.command.application.OrderService;
+import dev.t1dmlgus.order.ui.OrderController;
+import dev.t1dmlgus.order.command.application.OrderDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -33,11 +36,15 @@ class OrderControllerTest {
     @MockBean
     private OrderService orderService;
 
+    private MockHttpSession mockSession;
 
     @BeforeEach
     void setup(WebApplicationContext webApplicationContext) {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
                 .build();
+
+        mockSession = new MockHttpSession();
+        mockSession.setAttribute("LOGIN_MEMBER", "M12345678");
 
     }
 
@@ -66,6 +73,7 @@ class OrderControllerTest {
         ResultActions resultActions = mockMvc.perform(
                 post("/api/v1/order")
                         .content(json)
+                        .session(mockSession)
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)
         );

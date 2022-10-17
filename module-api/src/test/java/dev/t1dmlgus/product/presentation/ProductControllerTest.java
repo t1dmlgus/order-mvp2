@@ -1,15 +1,18 @@
-package dev.t1dmlgus.product;
+package dev.t1dmlgus.product.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.t1dmlgus.product.application.ProductCommand;
-import dev.t1dmlgus.product.application.ProductInfo;
-import dev.t1dmlgus.product.application.ProductService;
-import dev.t1dmlgus.product.domain.Product;
+import dev.t1dmlgus.product.command.application.ProductCommand;
+import dev.t1dmlgus.product.command.application.ProductInfo;
+import dev.t1dmlgus.product.command.application.ProductService;
+import dev.t1dmlgus.product.command.domain.Product;
+import dev.t1dmlgus.product.ui.ProductController;
+import dev.t1dmlgus.product.ui.ProductDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -34,6 +37,7 @@ class ProductControllerTest {
 
     private Product testProduct;
     private String  testProductToken;
+    private MockHttpSession mockSession;
 
     @BeforeEach
     void setup(WebApplicationContext webApplicationContext) {
@@ -43,6 +47,9 @@ class ProductControllerTest {
         testProduct = Product.newInstance(
                 "그리스로마신화 9 - 가장 아름다운 여신", 13_000, 70);
         testProductToken = testProduct.getProductToken();
+
+        mockSession = new MockHttpSession();
+        mockSession.setAttribute("LOGIN_MEMBER", "M12345678");
     }
 
     @Test
@@ -62,6 +69,7 @@ class ProductControllerTest {
         ResultActions resultActions = mockMvc.perform(
                 post("/api/v1/product")
                         .content(json)
+                        .session(mockSession)
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
         );
 
@@ -89,6 +97,7 @@ class ProductControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(
                 get("/api/v1/product/{productToken}",testProductToken)
+                        .session(mockSession)
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
         );
 
