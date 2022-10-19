@@ -21,9 +21,30 @@
 > 상품등록 및 결제내역 일괄처리를 위한 스케줄링 + 배치 어플리케이션
 
 
-## 업데이트 내역
-> v1.0
+## 도메인
 
+![image](https://user-images.githubusercontent.com/59961350/196823873-a8a0f0d8-b38a-44b2-99ad-9d1db4ce248d.png)
+
+
+## ERD
+
+![image](https://user-images.githubusercontent.com/59961350/196823940-8c4dded3-eeef-417c-8671-a85ce4e5c2c8.png)
+
+
+## 개발 프로세스
+
+### 이슈등록
+`fature`, `bug` label 과 같이 이슈를 생성한다. <br>
+등록된 이슈는 git-flow 전략에 맞게 브랜치를 생성하여 구현한다.
+
+### pull-request
+
+#### [develop]
+feature 기능이 완료 된 후, develop 브랜치에 pull-requests 올린다.
+- 이슈내용
+- 구현
+- 테스트
+- 기타사항
 
 
 ## Info
